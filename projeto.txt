@@ -1,0 +1,85 @@
+"""
+🧠 Expansão do Projeto: Gerador de Capas com IA via API
+🎯 Objetivo:
+Desenvolver um script em Python que, ao receber um título e tema, gere automaticamente uma imagem de capa usando API de IA generativa (como OpenAI DALL·E ou Stability AI).
+
+✅ Funcionalidades do Script (versão inicial):
+Entrada de dados:
+
+Título do produto
+
+Tema ou estilo desejado
+
+Geração de prompt automático
+
+Baseado em modelos prontos com preenchimento dinâmico
+
+Integração com API de geração de imagem
+
+Ex: DALL·E (OpenAI), Leonardo AI ou Stability (DreamStudio)
+
+Download da imagem gerada
+
+Salvamento automático com nome customizado
+
+(Opcional no futuro):
+
+Conversão da imagem para tamanho/corte padrão de capa
+
+Adição de título na imagem com fonte estilizada
+
+
+
+🧰 Tecnologias sugeridas:
+Python
+
+requests (para chamadas à API)
+
+API do DALL·E (OpenAI) ou Stable Diffusion
+
+Pillow (para manipular imagem, se necessário)
+
+
+
+📦 Formato final:
+Script Python standalone
+
+Interface CLI simples (linha de comando)
+
+Pronto para ser acoplado futuramente a um bot ou site
+
+
+
+🟢 Próximo passo:
+Você gostaria que eu já criasse um modelo inicial do script, com integração à API da OpenAI (DALL·E), onde você insere um título e ele gera a capa?
+
+Ou prefere que eu primeiro te ajude a criar uma interface web simples para isso?
+
+Ambos são possíveis — você decide como quer começar.
+
+
+
+
+
+Aqui está o modelo inicial de um script Python para gerar capas personalizadas via API da OpenAI (DALL·E):
+
+📁 Arquivo gerado: gerador_capa_IA.py
+
+⚙️ Funcionalidades do script:
+Gera um prompt inteligente baseado no título e no tema visual;
+
+Envia esse prompt para a API de geração de imagem da OpenAI;
+
+Decodifica e salva a imagem como PNG no computador.
+
+🧠 Para usar:
+Substitua 'sua-chave-aqui' pela sua chave da OpenAI;
+
+Execute o script no terminal ou editor Python;
+
+Informe o título e o tema desejado quando solicitado;
+
+A imagem será salva automaticamente.
+
+Se quiser, posso te ajudar a transformar esse script em uma interface web leve ou integrá-lo ao Telegram futuramente. Deseja seguir com isso? 
+"""

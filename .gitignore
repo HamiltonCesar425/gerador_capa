@@ -1,0 +1,33 @@
+# Virtual environment
+.venv/
+
+# Environment variables / secrets
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Generated output
+output/
+
+# IDE / OS
+.vscode/
+.DS_Store
+thumbs.db
+
+# Archives
+*.zip
+
+# Generated images / legacy visual assets
+*.png
+*.jpg
+*.jpeg
+*.webp
+
+# Legacy asset folders
+Imagens nao postadas/
+Imagens recentes - não editadas/
+Pack Visual IA vol2/
+SyntheticCyber/

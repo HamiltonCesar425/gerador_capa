@@ -1,0 +1,10 @@
+[project]
+name = "gerador-capa"
+version = "0.1.0"
+description = "Gerador de capas com IA a partir de título e tema visual."
+requires-python = ">=3.10"
+dependencies = [
+    "openai",
+    "pillow",
+    "python-dotenv",
+]

@@ -1,11 +1,7 @@
-import openai
 import base64
-import requests
+
 from io import BytesIO
 from PIL import Image
-
-# Configure sua chave de API da OpenAI
-openai.api_key = "sua-chave-aqui"
 
 
 def gerar_prompt(titulo, tema):

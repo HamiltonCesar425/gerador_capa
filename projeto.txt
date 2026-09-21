@@ -1,85 +1,127 @@
-"""
-🧠 Expansão do Projeto: Gerador de Capas com IA via API
-🎯 Objetivo:
-Desenvolver um script em Python que, ao receber um título e tema, gere automaticamente uma imagem de capa usando API de IA generativa (como OpenAI DALL·E ou Stability AI).
+# GERADOR DE CAPAS COM IA
 
-✅ Funcionalidades do Script (versão inicial):
-Entrada de dados:
+1. OBJETIVO
 
-Título do produto
+Modernizar um projeto legado em Python para geração de capas utilizando IA generativa, aplicando progressivamente princípios de Engenharia de Software, testabilidade, segurança, qualidade de código e manutenção.
 
-Tema ou estilo desejado
+O projeto também funciona como laboratório prático para estudo de código legado, diagnóstico de falhas, refatoração e testes automatizados.
 
-Geração de prompt automático
+2. ESCOPO FUNCIONAL
 
-Baseado em modelos prontos com preenchimento dinâmico
+O sistema deve permitir:
 
-Integração com API de geração de imagem
+RF-01 - Receber o título da capa.
 
-Ex: DALL·E (OpenAI), Leonardo AI ou Stability (DreamStudio)
+RF-02 - Receber o tema ou estilo visual desejado.
 
-Download da imagem gerada
+RF-03 - Construir automaticamente um prompt de geração de imagem a partir dos dados fornecidos.
 
-Salvamento automático com nome customizado
+RF-04 - Solicitar a geração da imagem por meio de um serviço externo de IA.
 
-(Opcional no futuro):
+RF-05 - Processar a resposta retornada pelo serviço de geração de imagem.
 
-Conversão da imagem para tamanho/corte padrão de capa
+RF-06 - Salvar localmente a imagem gerada com um nome de arquivo apropriado.
 
-Adição de título na imagem com fonte estilizada
+A interface inicial continuará sendo CLI (Command-Line Interface).
 
+3. REQUISITOS DE QUALIDADE
 
+A modernização deverá priorizar:
 
-🧰 Tecnologias sugeridas:
-Python
+* código legível e compatível com as boas práticas da linguagem Python;
+* separação de responsabilidades;
+* baixo acoplamento com serviços externos;
+* funções e componentes testáveis de forma isolada;
+* tratamento explícito de erros;
+* configuração externa de credenciais e parâmetros sensíveis;
+* ausência de credenciais no código-fonte e no repositório Git;
+* testes automatizados para comportamentos relevantes;
+* execução determinística dos testes sempre que possível;
+* documentação suficiente para instalação, execução e manutenção;
+* dependências declaradas e ambiente reproduzível.
 
-requests (para chamadas à API)
+4. DIRETRIZES DE TESTABILIDADE
 
-API do DALL·E (OpenAI) ou Stable Diffusion
+Antes da criação dos testes, o código legado deverá ser analisado quanto a:
 
-Pillow (para manipular imagem, se necessário)
+* dependências externas;
+* efeitos colaterais (side effects);
+* acesso ao sistema de arquivos;
+* entrada e saída pelo terminal;
+* estado global;
+* acoplamento com APIs;
+* entradas, saídas e condições de erro.
 
+Serviços externos não deverão ser chamados desnecessariamente durante testes automatizados.
 
+Os testes devem validar o comportamento do Gerador de Capas, e não testar internamente os serviços de terceiros utilizados pelo projeto.
 
-📦 Formato final:
-Script Python standalone
+5. MODERNIZAÇÃO DO PROJETO
 
-Interface CLI simples (linha de comando)
+A evolução será incremental, preservando o histórico Git.
 
-Pronto para ser acoplado futuramente a um bot ou site
+Etapa 1 - Baseline e diagnóstico do legado
 
+* identificar o comportamento existente;
+* registrar falhas reproduzíveis;
+* identificar problemas de testabilidade;
+* analisar dependências e estrutura do projeto.
 
+Etapa 2 - Refatoração para testabilidade
 
-🟢 Próximo passo:
-Você gostaria que eu já criasse um modelo inicial do script, com integração à API da OpenAI (DALL·E), onde você insere um título e ele gera a capa?
+* separar responsabilidades;
+* reduzir acoplamentos;
+* isolar integrações externas;
+* tornar dependências substituíveis durante os testes.
 
-Ou prefere que eu primeiro te ajude a criar uma interface web simples para isso?
+Etapa 3 - Testes automatizados
 
-Ambos são possíveis — você decide como quer começar.
+* criar testes para os comportamentos definidos pelos requisitos;
+* testar casos normais, limites e falhas relevantes;
+* evitar testes dependentes de rede ou de serviços externos quando não forem testes de integração.
 
+Etapa 4 - Modernização da integração com IA
 
+* utilizar a interface atual e suportada do SDK adotado;
+* carregar credenciais de forma segura;
+* tratar falhas da API;
+* manter a integração isolada do restante da lógica da aplicação.
 
+Etapa 5 - Qualidade e confiabilidade
 
+* análise estática;
+* linting e formatação;
+* análise de segurança;
+* cobertura de testes como métrica auxiliar, sem substituir testes orientados a comportamento;
+* logs apropriados para diagnóstico;
+* integração das verificações ao fluxo de desenvolvimento.
 
-Aqui está o modelo inicial de um script Python para gerar capas personalizadas via API da OpenAI (DALL·E):
+Etapa 6 - Reprodutibilidade e entrega
 
-📁 Arquivo gerado: gerador_capa_IA.py
+* revisar documentação;
+* garantir instalação reproduzível;
+* avaliar containerização quando houver justificativa técnica;
+* preparar o projeto para execução consistente em diferentes ambientes.
 
-⚙️ Funcionalidades do script:
-Gera um prompt inteligente baseado no título e no tema visual;
+6. FUNCIONALIDADES FORA DO ESCOPO ATUAL
 
-Envia esse prompt para a API de geração de imagem da OpenAI;
+Poderão ser avaliadas futuramente:
 
-Decodifica e salva a imagem como PNG no computador.
+* redimensionamento e recorte automático de capas;
+* inserção programática de textos sobre imagens;
+* interface web;
+* integração com bots ou outros sistemas;
+* suporte a múltiplos provedores de geração de imagens.
 
-🧠 Para usar:
-Substitua 'sua-chave-aqui' pela sua chave da OpenAI;
+Essas funcionalidades não fazem parte da modernização inicial e não devem aumentar desnecessariamente a complexidade do projeto.
 
-Execute o script no terminal ou editor Python;
+7. PRINCÍPIO DE EVOLUÇÃO
 
-Informe o título e o tema desejado quando solicitado;
+Cada alteração relevante deverá responder pelo menos a uma destas perguntas:
 
-A imagem será salva automaticamente.
+* Qual problema está sendo resolvido?
+* Qual requisito está sendo atendido?
+* Qual risco está sendo reduzido?
+* Como a alteração melhora a testabilidade, manutenção, segurança ou confiabilidade?
 
-Se quiser, posso te ajudar a transformar esse script em uma interface web leve ou integrá-lo ao Telegram futuramente. Deseja seguir com isso? 
-"""
+A modernização deve ser incremental e tecnicamente justificável, evitando refatorações ou abstrações sem necessidade demonstrável.

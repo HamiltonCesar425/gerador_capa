@@ -1,5 +1,10 @@
+import base64
+from io import BytesIO
 from unittest.mock import Mock
-from gerador_capa.app import gerar_imagem, gerar_prompt
+
+from PIL import Image
+
+from gerador_capa.app import gerar_imagem, gerar_prompt, salvar_imagem
 
 
 def test_gerar_prompt():
@@ -39,3 +44,23 @@ def test_gerar_imagem():
         size="1024x1024",
         response_format="b64_json",
     )
+
+
+def test_salvar_imagem_cria_arquivo_png(tmp_path):
+    # Arrange
+    imagem = Image.new("RGB", (1, 1))
+    buffer = BytesIO()
+    imagem.save(buffer, format="PNG")
+    imagem_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
+
+    nome_arquivo = tmp_path / "capa_teste"
+
+    # Act
+    salvar_imagem(imagem_base64, nome_arquivo)
+
+    # Assert
+    arquivo_esperado = tmp_path / "capa_teste.png"
+    assert arquivo_esperado.exists()
+
+    with Image.open(arquivo_esperado) as imagem_salva:
+        assert imagem_salva.format == "PNG"

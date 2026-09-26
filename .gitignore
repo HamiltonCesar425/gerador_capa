@@ -39,3 +39,8 @@ Pack Visual IA vol2/
 SyntheticCyber/
 
 .sonar/
+
+# Test / coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/

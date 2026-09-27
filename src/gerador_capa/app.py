@@ -16,12 +16,16 @@ def gerar_imagem(prompt, cliente_imagem):
         size="1024x1024",
         response_format="b64_json",
     )
+
+    if not response.data:
+        raise ValueError("A API não retornou dados de imagem.")
+
     imagem_base64 = response.data[0].b64_json
     return imagem_base64
 
 
 def salvar_imagem(imagem_base64, nome_arquivo):
-    imagem_bytes = base64.b64decode(imagem_base64)
+    imagem_bytes = base64.b64decode(imagem_base64, validate=True)
     imagem = Image.open(BytesIO(imagem_bytes))
     imagem.save(f"{nome_arquivo}.png")
     print(f"Imagem salva como {nome_arquivo}.png")

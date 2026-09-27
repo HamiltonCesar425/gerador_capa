@@ -2,7 +2,8 @@ import base64
 from io import BytesIO
 from unittest.mock import Mock
 
-from PIL import Image
+import pytest
+from PIL import Image, UnidentifiedImageError
 
 from gerador_capa import app
 from gerador_capa.app import gerar_imagem, gerar_prompt, salvar_imagem
@@ -45,6 +46,41 @@ def test_gerar_imagem():
         size="1024x1024",
         response_format="b64_json",
     )
+
+
+def test_gerar_imagem_com_resposta_sem_dados():
+    cliente_imagem = Mock()
+    cliente_imagem.generate.return_value = Mock(data=[])
+
+    with pytest.raises(ValueError, match="A API não retornou dados de imagem."):
+        gerar_imagem("prompt de teste", cliente_imagem)
+
+
+def test_salvar_imagem_com_base64_invalido():
+    with pytest.raises(ValueError):
+        salvar_imagem("isto-nao-e-base64!!!", "imagem_teste")
+
+
+def test_salvar_imagem_com_base64_que_nao_contem_imagem():
+    conteudo = b"isto e apenas texto"
+    imagem_base64 = base64.b64encode(conteudo).decode("utf-8")
+
+    with pytest.raises(UnidentifiedImageError):
+        salvar_imagem(imagem_base64, "imagem_teste")
+
+
+def test_salvar_imagem_com_erro_ao_gravar(monkeypatch):
+    # Arrange
+    conteudo = base64.b64encode(b"conteudo de teste").decode("utf-8")
+
+    imagem_mock = Mock()
+    imagem_mock.save.side_effect = OSError("Falha ao gravar arquivo")
+
+    monkeypatch.setattr(app.Image, "open", Mock(return_value=imagem_mock))
+
+    # Act & Assert
+    with pytest.raises(OSError, match="Falha ao gravar arquivo"):
+        salvar_imagem(conteudo, "imagem_teste")
 
 
 def test_salvar_imagem_cria_arquivo_png(tmp_path):

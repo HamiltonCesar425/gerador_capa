@@ -43,8 +43,16 @@ def main():
     prompt = gerar_prompt(titulo, tema)
     print(f"Prompt gerado: {prompt}")
 
-    imagem_base64 = gerar_imagem(prompt, client.images)
-    salvar_imagem(imagem_base64, titulo.replace(" ", "_"))
+    try:
+        imagem_base64 = gerar_imagem(prompt, client.images)
+    except ValueError as erro:
+        print(f"Erro ao gerar imagem: {erro}")
+        return
+
+    try:
+        salvar_imagem(imagem_base64, titulo.replace(" ", "_"))
+    except (ValueError, OSError) as erro:
+        print(f"Erro ao salvar imagem: {erro}")
 
 
 if __name__ == "__main__":

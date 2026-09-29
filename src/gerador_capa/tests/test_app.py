@@ -136,3 +136,81 @@ def test_main_orquestra_fluxo(monkeypatch):
         "imagem_em_base64",
         "Python_para_iniciantes",
     )
+
+
+def test_main_trata_erro_ao_gerar_imagem(monkeypatch, capsys):
+    # Arrange
+    cliente_mock = Mock()
+    monkeypatch.setattr(app, "OpenAI", Mock(return_value=cliente_mock))
+
+    entradas = iter(["Python para iniciantes", "minimalista"])
+    monkeypatch.setattr("builtins.input", lambda _: next(entradas))
+
+    gerar_imagem_mock = Mock(
+        side_effect=ValueError("A API não retornou dados de imagem.")
+    )
+    salvar_imagem_mock = Mock()
+
+    monkeypatch.setattr(app, "gerar_imagem", gerar_imagem_mock)
+    monkeypatch.setattr(app, "salvar_imagem", salvar_imagem_mock)
+
+    # Act
+    app.main()
+
+    # Assert
+    saida = capsys.readouterr()
+
+    assert "A API não retornou dados de imagem." in saida.out
+    salvar_imagem_mock.assert_not_called()
+
+
+def test_main_trata_erro_ao_salvar_imagem(monkeypatch, capsys):
+    # Arrange
+    cliente_mock = Mock()
+    monkeypatch.setattr(app, "OpenAI", Mock(return_value=cliente_mock))
+
+    entradas = iter(["Python para iniciantes", "minimalista"])
+    monkeypatch.setattr("builtins.input", lambda _: next(entradas))
+
+    monkeypatch.setattr(
+        app,
+        "gerar_imagem",
+        Mock(return_value="imagem_em_base64"),
+    )
+
+    salvar_imagem_mock = Mock(side_effect=OSError("Falha ao gravar arquivo"))
+    monkeypatch.setattr(app, "salvar_imagem", salvar_imagem_mock)
+
+    # Act
+    app.main()
+
+    # Assert
+    saida = capsys.readouterr()
+
+    assert "Falha ao gravar arquivo" in saida.out
+
+
+def test_main_trata_base64_invalido_ao_salvar(monkeypatch, capsys):
+    # Arrange
+    cliente_mock = Mock()
+    monkeypatch.setattr(app, "OpenAI", Mock(return_value=cliente_mock))
+
+    entradas = iter(["Python para iniciantes", "minimalista"])
+    monkeypatch.setattr("builtins.input", lambda _: next(entradas))
+
+    monkeypatch.setattr(
+        app,
+        "gerar_imagem",
+        Mock(return_value="imagem_em_base64"),
+    )
+
+    salvar_imagem_mock = Mock(side_effect=ValueError("Conteúdo Base64 inválido"))
+    monkeypatch.setattr(app, "salvar_imagem", salvar_imagem_mock)
+
+    # Act
+    app.main()
+
+    # Assert
+    saida = capsys.readouterr()
+
+    assert "Conteúdo Base64 inválido" in saida.out
